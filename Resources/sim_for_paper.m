@@ -6,7 +6,7 @@ steps=200;  % time-steps in one "iteration". each time-step is ~ 1 burst duratio
 
 beta = .25;	% global inhibition strength
 wmax=1;		% single synapse hard bound
-m=1;		% Wmax = m*wmax
+m=4;		% Wmax = m*wmax
 pn=2;		 
 p=pn/n;		% probability of external stimulation of any neuron at any time
 eta=0.125;	% learning rate parameter	
