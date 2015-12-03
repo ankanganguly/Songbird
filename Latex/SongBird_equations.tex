@@ -1,0 +1,103 @@
+\documentclass{article}
+
+\usepackage{amsmath,amsthm,amssymb,graphicx,booktabs,listings,color}
+
+
+\begin{document}
+
+Conductance-Based Neuron Network Dynamics \\
+
+Subthreshold evolution of voltage is the same as leaky integrate-and-fire (LIF) neurons:
+\begin{gather}
+C_m \frac{dV_i}{dt} = -g^L (V_i - V_L) -g^E_i (V_i - V_E) -g^I_i (V_i - V_I) \\
+\frac{ds_i}{dt} = - \frac{s_i}{\tau_s} \\
+g^E_i = \sum_j W_{ij}s_j + W_ob_i \\
+g^I_i = g^{I\ glob} + g^{ada}_i \\
+g^{I\ glob} = (A_g/N) \sum_j s_j \\
+g^{ada}_i = A_a s^{ada}_i (t) \\
+\frac{ds^{ada}_i}{dt} = - \frac{s^{ada}_i}{\tau_{ada}} \\
+\end{gather}
+
+\newpage
+
+Learning 
+\begin{gather}
+\Delta^{STDP}_{ij}(t) = (\frac{W_{ij}}{w_{max}} + 0.001) \times [x_i(t)K(0)x_j(t)+\sum^t_{\tau=0}x_i(t) K(\tau)x_j(t-\tau)-x_i(t-\tau)K(\tau)x_j(t)] \\
+W_{ij}(t) = W_{ij}(t-1) + \eta \Delta^{STDP}_{ij}(t) - \epsilon \eta \theta_{i*}(t) - \epsilon \eta \theta_{*j}(t) \\
+\textbf{For the summed-weight limit} \ \theta_{i*}=\text{max}(0,\sum_k(W_{ik}+\Delta^{STDP}_{ik})-W_{max} ) \\
+\textbf{For the summed-weight limit} \ \theta_{*i}=\text{max}(0,\sum_k(W_{ki}+\Delta^{STDP}_{ki})-W_{max} ) \\
+\textbf{For the weight-growth limit} \ \theta_{i*}=\sum_k W_{ik} \Theta(\Delta^{STDP}_{ik}) \\
+\textbf{For the weight-growth limit} \ \theta_{*i}=\sum_k W_{ki} \Theta(\Delta^{STDP}_{ki}) \\
+W_{ii}=0
+\end{gather}
+
+\newpage
+
+Parameters and Initial Conditions\\
+$W_{ij}=w_{max}/N$ \\
+or\\
+$W_{ij}$ is random in the interval $[0,w_{max}/N]$, for all $i \neq j$.\\
+$W_{ii}=0$ for all $i$.\\
+
+
+LIB neurons
+\begin{gather}
+dt=0.02 ms \\
+C_m=1 \mu F/cm^2 \\
+V_L=-60mV\\
+V_E=0mV\\
+V_I=-70mV\\
+g_L=0.4mS/cm^2\\
+W_o=0.5mS/cm^2\\
+V_\theta=-50mV\\
+V_{reset}=-55mV\\
+T_{burst}=6ms\\
+\tau_s=4ms\\
+r_{in}=4Hz\\
+\end{gather}
+
+\newpage
+
+Summed-Weight Limit, LIB neurons
+\begin{gather}
+\textbf{Figure 4} \\
+N=50 \\
+w_{max}=0.14 \\
+W_{max}=w_{max}(m=1) \\
+\eta=0.002 \\
+\epsilon = 72.5 \\
+A_g=0.4 mS/cm^2 \\
+A_a=0.9 mS/cm^2 \\
+\tau_{STDP} = 20ms \\
+t_{ada} = 15ms \\
+\text{poisson rate of input neurons is 2Hz.} \\
+\textbf{Wide chains (Figures 5D-5F)}\\
+k=5\\
+w_{max} = W_{max}/9 (m=9)\\
+A_g=0.2mS/cm^2 \\
+W_{max} = 0.26\\
+\eta = 0.0001\\
+\epsilon = 30 \\
+\text{poisson rate of 10Hz for the input neurons.} \\
+\end{gather}
+
+\newpage
+
+Weight-Growth Limit, LIB Neurons
+\begin{gather}
+g_L=0.1mS/cm^2\\
+N=80 \\
+W_o=0.5 \\
+w_{max}=3 \\
+W_{max}=w_{max}(m=1) \\
+\eta=0.038 \\
+\epsilon = 4.8/N \\
+A_g=0 mS/cm^2 \\
+A_a=0.5 mS/cm^2 \\
+\tau_{STDP} = 20ms \\
+\text{poisson rate of input neurons is 2Hz.} \\
+\end{gather}
+The synaptic activation has an exponential rise-time of 1ms and decay-time of 4ms. The input is annealed away starting at 3s. Annealing was done by exponentially decaying the input firing rate, with a time-constant of 6s.
+
+\end{document}
+
