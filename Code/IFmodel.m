@@ -41,5 +41,6 @@ for t = 1:steps
     Thetarow = sum(W + Delta_STDP,1) - wmax*m;                      %Outgoing
     hLTP = repmat(Thetacol, 1,N) + repmat(Thetarow, N,1);           %Compute unnormalized hLTP
     W = W + eta*Delta_STDP - epsilon*eta*hLTP;                      %Calculate new Weights
+    
 end
     
