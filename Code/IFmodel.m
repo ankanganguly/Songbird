@@ -5,6 +5,9 @@ IFinputs;
 FireSet = Tburst/3;                                                 %Interval during burst when we fire
 time_bursting = Tburst/dt;                                          %Time step duration burst    
 
+%Recording
+Vt = zeros(steps,N);
+
 %Run for each time step
 for t = 1:steps
     %Update potentiation
@@ -25,6 +28,8 @@ for t = 1:steps
     V(bursts > time_bursting) = Vreset;                             %Reset V and bursts when burst period finishes
     bursts(bursts > time_bursting) = 0;
     
+    Vt(t,:) = V';                                                   %Record Potential
+    
     %Update activation
     s = (1 - dt/tau_s)*s;                                           %s decrements exponentially
     s_ada = (1 - dt/tau_ada)*s;
@@ -37,10 +42,13 @@ for t = 1:steps
         unnormalized_Delta = unnormalized_Delta + K(j+1)*(x(t,:)'*x(t - j,:) - x(t - j,:)'*x(t,:));
     end
     Delta_STDP = (W/wmax + 0.001).*unnormalized_Delta;              %Calculate Delta_STDP
-    Thetacol = sum(W + Delta_STDP,2) - wmax*m;                      %Incoming
-    Thetarow = sum(W + Delta_STDP,1) - wmax*m;                      %Outgoing
+    Thetacol = max(0,sum(W + Delta_STDP,2) - wmax*m);               %Incoming
+    Thetarow = max(0,sum(W + Delta_STDP,1) - wmax*m);               %Outgoing
     hLTP = repmat(Thetacol, 1,N) + repmat(Thetarow, N,1);           %Compute unnormalized hLTP
-    W = W + eta*Delta_STDP - epsilon*eta*hLTP;                      %Calculate new Weights
+    W = max(0,W + eta*Delta_STDP - epsilon*eta*hLTP);                      %Calculate new Weights
     
+    if mod(t,1000) == 0
+        t
+    end
 end
     
