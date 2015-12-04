@@ -6,7 +6,7 @@ FireSet = Tburst/3;                                                 %Interval du
 time_bursting = Tburst/dt;                                          %Time step duration burst    
 
 %Run for each time step
-for i = 1:step
+for i = 1:steps
     %Update potentiation
     b = rand(N,1) <= rin*dt;                                        %External input
     gE = W*s + W0*b;                                                %Set up gE
