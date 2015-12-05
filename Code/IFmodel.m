@@ -42,8 +42,7 @@ for t = 1:steps
     
     %Learning
     unnormalized_Delta = x(t,:)'*x(t,:)*K(1);
-    parpool
-    parfor j = 0:t-1
+    for j = 0:t-1
         unnormalized_Delta = unnormalized_Delta + K(j+1)*(x(t,:)'*x(t - j,:) - x(t - j,:)'*x(t,:));
     end
     Delta_STDP = (W/wmax + 0.001).*unnormalized_Delta;              %Calculate Delta_STDP
