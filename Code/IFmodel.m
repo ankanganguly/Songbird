@@ -42,17 +42,26 @@ for t = 1:steps
     
     %Learning
     unnormalized_Delta = x(t,:)'*x(t,:)*K(1);
-    for j = 0:t-1
+    for j = 0 : min(t-1,lv)
         unnormalized_Delta = unnormalized_Delta + K(j+1)*(x(t,:)'*x(t - j,:) - x(t - j,:)'*x(t,:));
     end
     Delta_STDP = (W/wmax + 0.001).*unnormalized_Delta;              %Calculate Delta_STDP
     Thetacol = max(0,sum(W + Delta_STDP,2) - wmax*m);               %Incoming
     Thetarow = max(0,sum(W + Delta_STDP,1) - wmax*m);               %Outgoing
     hLTP = repmat(Thetacol, 1,N) + repmat(Thetarow, N,1);           %Compute unnormalized hLTP
-    W = max(0,W + eta*Delta_STDP - epsilon*eta*hLTP);               %Calculate new Weights
+    W = max(0, W + eta*Delta_STDP - epsilon*eta*hLTP);               %Calculate new Weights
     
     if mod(t,1000) == 0
         t
     end
+    
+    if (rin>6000)
+        rin=rin-1;
+    end
 end
     
+figure()
+imagesc(logical(burstst'))
+figure()
+imagesc(W)
+colorbar

@@ -10,26 +10,36 @@ Vtheta = -0.05;     %Activation threshold in V
 Vreset = -0.055;    %Reset Potential in V
 Tburst = 0.006;     %Burst window in s
 tau_s   = 0.004;    %Time constant of synaptic activity in s
-rin    = 4000;         %Mean firing rate of external input in Hz
+rin    = 10000;         %Mean firing rate of external input in Hz
 
 N = 50;             %Number of neurons
 wmax = 0.14;        %Individual maximal weight
 m = 1;              %Wmax/wmax
 eta = 0.002;        %Learning step size
-epsilon = 72.5;     %Strength of the heterosynaptic constraint
+%epsilon = 72.5;     %Strength of the heterosynaptic constraint
+epsilon=7.25;
 Ag = 4;             %Inhibitory global multiplier in S/m^2
 Aa = 9;             %Inhibitory adaptation multiplier in S/m^2
 tau_STDP = 0.02;    %Time constant of learning in s
 tau_ada = 0.015;    %Inhibitary adaptation time constant
 
 %Initial variable values
-steps = 200; 
-W = zeros(N);               %Initial weights
+steps = 8000; 
 s = zeros(N,1);             %Activation 
 s_ada = zeros(N,1);         %Adaptation activation
-x = sparse(zeros(steps,N)); %Spike state
 K = exp(0:-dt/tau_STDP:-(steps-1)*dt/tau_STDP)';
 K(1) = 0;                   %STDP Kernel, K(t) = K(t - 1)
 V = ones(N,1)*Vreset;       %Initial potential set to reset potential
 bursts = zeros(N,1);        %Bursting neurons and steps into burst
 
+lv = 2000;                  %memory of the system
+x = sparse(zeros(steps,N)); %Spike state
+%x(1:lv,:) = rand(lv,N) < (4/3750);
+
+%Creating a permutation matrix
+%W = eye(N);
+%idx = randperm(N);
+%W = W(idx,:)*wmax;
+W = ones(N)*wmax/N;               %Initial weights
+
+W(logical(eye(N))) = 0;
