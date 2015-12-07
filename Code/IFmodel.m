@@ -12,7 +12,7 @@ burstst = zeros(steps,N);
 %Run for each time step
 for t = 1:steps
     %Update potentiation
-    b = rand(N,1) <= rin*dt;                                        %External input
+    b = rand(N,1) <= rin*dt;                                        %External input, SEED!!!!!!
     %b = [1;1];                                                      %Testing value
     gE = W*s + W0*b;                                                %Set up gE
     gIglob = (Ag/N)*sum(s);                 
@@ -46,11 +46,14 @@ for t = 1:steps
         unnormalized_Delta = unnormalized_Delta + K(j+1)*(x(t,:)'*x(t - j,:) - x(t - j,:)'*x(t,:));
     end
     Delta_STDP = (W/wmax + 0.001).*unnormalized_Delta;              %Calculate Delta_STDP
+    %Thetacol = max(0,sum(W + eta*Delta_STDP,2) - wmax*m);               %Incoming
+    %Thetarow = max(0,sum(W + eta*Delta_STDP,1) - wmax*m);               %Outgoing
     Thetacol = max(0,sum(W + Delta_STDP,2) - wmax*m);               %Incoming
     Thetarow = max(0,sum(W + Delta_STDP,1) - wmax*m);               %Outgoing
     hLTP = repmat(Thetacol, 1,N) + repmat(Thetarow, N,1);           %Compute unnormalized hLTP
     W = max(0, W + eta*Delta_STDP - epsilon*eta*hLTP);               %Calculate new Weights
-    
+    W(W>wmax) = wmax;                                               %hard-limit
+
     if mod(t,1000) == 0
         t
     end
@@ -64,4 +67,7 @@ figure()
 imagesc(logical(burstst'))
 figure()
 imagesc(W)
+colorbar
+figure()
+imagesc(W*W')
 colorbar

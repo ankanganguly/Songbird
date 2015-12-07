@@ -15,16 +15,17 @@ rin    = 10000;         %Mean firing rate of external input in Hz
 N = 50;             %Number of neurons
 wmax = 0.14;        %Individual maximal weight
 m = 1;              %Wmax/wmax
-eta = 0.002;        %Learning step size
+%eta = 0.002;        %Learning step size
+eta = 0.2;        %Learning step size
 %epsilon = 72.5;     %Strength of the heterosynaptic constraint
-epsilon=7.25;
+epsilon=0.0725;
 Ag = 4;             %Inhibitory global multiplier in S/m^2
 Aa = 9;             %Inhibitory adaptation multiplier in S/m^2
 tau_STDP = 0.02;    %Time constant of learning in s
 tau_ada = 0.015;    %Inhibitary adaptation time constant
 
 %Initial variable values
-steps = 8000; 
+steps = 30000; 
 s = zeros(N,1);             %Activation 
 s_ada = zeros(N,1);         %Adaptation activation
 K = exp(0:-dt/tau_STDP:-(steps-1)*dt/tau_STDP)';
@@ -42,4 +43,4 @@ x = sparse(zeros(steps,N)); %Spike state
 %W = W(idx,:)*wmax;
 W = ones(N)*wmax/N;               %Initial weights
 
-W(logical(eye(N))) = 0;
+%W(logical(eye(N))) = 0;
