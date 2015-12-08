@@ -52,6 +52,33 @@
 \item Truthful replication, why it failed (Integrate and fire) 
 \item Discussion about rates, learning parameters
 \item Sensitivity analysis on rate, learning parameters (rin, \(\eta\), \(\epsilon\))
+
+Assume that optimal
+
+\[WW^T = w_{max}^2 I\]
+
+Then we can define an error function by
+
+\[Err(W) = E[WW^T] = \sum_{i \neq j} (WW^T)_{ij} + \sum_{i=1}^N [w_{max}^2 - (WW^T)_{ii}]\]
+
+Plot 1:
+
+\(rin\) vs \(Err(W)\) with different curves for each value of \(\eta*\epsilon\)
+
+Plot 2:
+
+Fix \(rin_{best}\) and \((\eta*\epsilon)_{best}\) and vary \(\epsilon\).
+
+Plot 3:
+
+Fix \(rin_{best}\) and \((\eta*\epsilon)_{best}\) and vary \(\eta\).
+
+Extrapolate \(W_e\) as the matrix satisfying \(Err(W) = 0\) which is closest to \(W\).
+
+Run stability testing and possibly add some more plots.
+
+Add potential plots and bursting for various parameters to test firing chains.
+
 \item Intuition behind sensitivity
 \item Intuitive explanation
 \item Synchrony in this model (Find experimental paper about songbird)
