@@ -10,22 +10,23 @@ Vtheta = -0.05;     %Activation threshold in V
 Vreset = -0.055;    %Reset Potential in V
 Tburst = 0.006;     %Burst window in s
 tau_s   = 0.004;    %Time constant of synaptic activity in s
-rin    = 10000;         %Mean firing rate of external input in Hz
+%rin    = 10000;         %Mean firing rate of external input in Hz
+%rin_min = 6000;
 
 N = 50;             %Number of neurons
 wmax = 0.14;        %Individual maximal weight
 m = 1;              %Wmax/wmax
 %eta = 0.002;        %Learning step size
-eta = 0.2;        %Learning step size
+%eta = 0.2;        %Learning step size
 %epsilon = 72.5;     %Strength of the heterosynaptic constraint
-epsilon=0.0725;
+%epsilon=0.0725;
 Ag = 4;             %Inhibitory global multiplier in S/m^2
 Aa = 9;             %Inhibitory adaptation multiplier in S/m^2
 tau_STDP = 0.02;    %Time constant of learning in s
 tau_ada = 0.015;    %Inhibitary adaptation time constant
 
 %Initial variable values
-steps = 30000; 
+steps = 50000; 
 s = zeros(N,1);             %Activation 
 s_ada = zeros(N,1);         %Adaptation activation
 K = exp(0:-dt/tau_STDP:-(steps-1)*dt/tau_STDP)';
@@ -44,3 +45,4 @@ x = sparse(zeros(steps,N)); %Spike state
 W = ones(N)*wmax/N;               %Initial weights
 
 %W(logical(eye(N))) = 0;
+
