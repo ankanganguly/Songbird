@@ -22,7 +22,7 @@ function openfiles(numFiles, Fileset)
         colorbar
         
         %Save the figures
-        savefig(h, ['figs: rin_',num2str(rin), 'eta_', num2str(eta), 'epsilon_', num2str(epsilon), '.fig'], 'compact')
+        savefig(h, ['figs rin_',num2str(rin), 'eta_', num2str(eta), 'epsilon_', num2str(epsilon), '.fig'], 'compact')
         close(h)
     end
 end
