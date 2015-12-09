@@ -1,0 +1,12 @@
+%% This file plots Error related graphes.
+
+
+load('Errorfunct.mat')
+figure()
+scatter(Error(:,end),Error(:,1))
+figure()
+x=Error(:,1);
+for i=1:length(x)
+    y(:,i) = Error(find(Error(:,1)==x(i)),end);
+end
+barh(x,y)
