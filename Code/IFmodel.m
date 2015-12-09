@@ -1,3 +1,5 @@
+%% This file runs the integrate-and-burst model, and then save everything.
+
 function IFmodel(rin, rin_min, eta, epsilon)
     %Load inputs
     IFinputs;

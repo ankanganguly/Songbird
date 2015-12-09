@@ -1,3 +1,5 @@
+%% This file specifys the set of parameters in a simulation, and then run it.
+
 eta_array=[0.002, 0.02, 0.2, 2];
 epsilon_array=[72.5, 7.25, 0.725, 0.0725];
 for iii=1:4
