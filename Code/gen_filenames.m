@@ -38,4 +38,5 @@ for iii=1:length(eta_array)
     end
 end
 
+files_names=unique(files_names);
 save('files_names.mat')
