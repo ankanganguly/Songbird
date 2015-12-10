@@ -1,14 +1,18 @@
 %Parameters
 N = 10;                             %Number of inputs
 inputs = rand(N,1);                 %Inputs, for now assumed constant
+%inputs = zeros(N,1);
+%inputs(1) = 1;
 W = rand(1,N);                      %Initial weights
+%W = ones(1,N);
+
 theta = 0;                          %Initial threshold
 output = W*inputs;                  %Initial output
-steps = 1000000;                       %Number of steps
+steps = 100000;                       %Number of steps
 dt = 0.001;                         %Time interval
 tau_theta = 0.1;                    %Theta time constant
 jump = 1000;                          %Period of display
-epsilon = 0.1;                      %Weight decay
+epsilon = 0;                      %Weight decay
 
 %Recording variables
 Ws = zeros(steps+1,N);
@@ -23,8 +27,8 @@ inputset(:,1) = inputs;             %Record Inputs
 
 for t = 1:steps
     %Update threshold
-    theta = theta + (output^2 - theta)*dt/tau_theta;
-    %theta = exp(-(t+1 - (1:t))*dt/tau_theta)*(outputs(1:t).^2)*dt/tau_theta;
+    %theta = theta + (output^2 - theta)*dt/tau_theta;
+    theta = exp(-(t+1 - (1:t))*dt/tau_theta)*(outputs(1:t).^2)*dt/tau_theta;
     thetas(t + 1) = theta;
     
     %Update weights
@@ -36,16 +40,16 @@ for t = 1:steps
     outputs(t + 1) = output;
     
     %Update inputs
-    inputs(1) = inputs(1) + (output - theta)*dt;
-    inputs(2:end) = inputs(2:end) + (theta - output)*dt;
-    inputset(:,t+1) = inputs;
+    %inputs(1) = inputs(1) + (output - theta)*dt;
+    %inputs(2:end) = inputs(2:end) + (theta - output)*dt;
+    %inputset(:,t+1) = inputs;
     
     if mod(t,10000) == 0
         t
     end
 end
 
-figure
+figure()
 for t = 1:jump: steps + 1
     clf
     hold on
