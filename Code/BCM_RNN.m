@@ -46,7 +46,7 @@ eta = 0.001;
 tau = steps;
 X = zeros(N,1);                     % argument of Sigmoid function
 
-for t = 1:steps+1
+for t = 1:(steps+1)
     update_output();
     update_theta();
     update_phi();
@@ -77,29 +77,28 @@ save('BCM_RNN.mat')
                 end
             end
         end
-        out = Sigmoid(X);    
-        outs(t+1,:) = out ;
+        outs(t+1,:) = Sigmoid(X);               
+        out(:) = outs(t+1,:);
     end
 
 % -------------------------------------------------------------------------
     function update_theta()
-        tprime = 1:t;
-       
+
+        tprime = 1:(t+1);
+        
         % trapezoidal rule
-        temp_sum=zeros(1,N);
-        for k=1:(t-1)
-            if ~isempty(k) 
-                temp_sum = temp_sum + outs(tprime(k+1),:) * exp(-(t-tprime(k+1))/tau) + outs(tprime(k),:) * exp(-(t-tprime(k))/tau);        
-            end
+        temp_sum = zeros(1,N);
+        for k=1:((t+1)-1)
+                temp_sum = temp_sum + outs(tprime(k+1),:).^2 * exp(-(t-tprime(k+1))/tau) + outs(tprime(k),:).^2 * exp(-(t-tprime(k))/tau);        
         end
         
-        theta = 1/2 * temp_sum / tau;    
-        thetas(t,:) = theta;
+        theta = 1/2 * temp_sum /tau;
+        thetas(t+1,:) = theta;
     end
 
 % -------------------------------------------------------------------------
     function update_phi()
-        phi = times(out, (out-theta));
+        phi = times(out, (out-theta'));
     end
 
 % -------------------------------------------------------------------------
