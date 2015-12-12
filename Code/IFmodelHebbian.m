@@ -46,22 +46,22 @@ function IFmodel(rin, rin_min, eta, epsilon)
         s(x(t,:) == 1) = s(x(t,:) == 1) + 1;                            %si increments everytime neuron i fires
         s_ada(x(t,:) == 1) = s_ada(x(t,:) == 1) + 1;
 
-        %Learning
+        %Hebbian + hLTP Learning
         unnormalized_Delta = x(t,:)'*x(t,:)*K(1);
         for j = 0 : min(t-1,lv)
-            unnormalized_Delta = unnormalized_Delta + K(j+1)*(x(t,:)'*x(t - j,:) - x(t - j,:)'*x(t,:));
+            unnormalized_Delta = unnormalized_Delta + K(j+1)*x(t,:)'*x(t - j,:);
         end
-        Delta_STDP = (W/wmax + 0.001).*unnormalized_Delta;              %Calculate Delta_STDP
-        %Thetacol = max(0,sum(W + eta*Delta_STDP,2) - wmax*m);               %Incoming
-        %Thetarow = max(0,sum(W + eta*Delta_STDP,1) - wmax*m);               %Outgoing
-        Thetacol = max(0,sum(W + Delta_STDP,2) - wmax*m);               %Incoming
-        Thetarow = max(0,sum(W + Delta_STDP,1) - wmax*m);               %Outgoing
+        Delta_Heb = (W/wmax + 0.001).*unnormalized_Delta;               %Calculate Delta_Heb
+        %Thetacol = max(0,sum(W + eta*Delta_STDP,2) - wmax*m);          %Incoming
+        %Thetarow = max(0,sum(W + eta*Delta_STDP,1) - wmax*m);          %Outgoing
+        Thetacol = max(0,sum(W + Delta_Heb,2) - wmax*m);                %Incoming
+        Thetarow = max(0,sum(W + Delta_Heb,1) - wmax*m);                %Outgoing
         hLTP = repmat(Thetacol, 1,N) + repmat(Thetarow, N,1);           %Compute unnormalized hLTP
-        W = max(0, W + eta*Delta_STDP - epsilon*eta*hLTP);               %Calculate new Weights
+        W = max(0, W + eta*Delta_Heb - epsilon*eta*hLTP);               %Calculate new Weights
         W(W>wmax) = wmax;                                               %hard-limit
         
-        Ws(t+1,:,:) = W;                                                %Record W
-
+        Ws(t+1,:,:) = W;                                                %Record        
+        
         if mod(t,1000) == 0
             t
         end
