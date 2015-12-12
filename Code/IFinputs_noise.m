@@ -26,7 +26,7 @@ tau_STDP = 0.02;    %Time constant of learning in s
 tau_ada = 0.015;    %Inhibitary adaptation time constant
 
 %Initial variable values
-steps = 200000; 
+steps = 50000; 
 s = zeros(N,1);             %Activation 
 s_ada = zeros(N,1);         %Adaptation activation
 K = exp(0:-dt/tau_STDP:-(steps-1)*dt/tau_STDP)';
@@ -49,7 +49,13 @@ W = circshift(W,1);
 
 
 % add noise to Weight
+<<<<<<< HEAD
 %noise=wmax/10;
 %W(7,1)=noise;
 %W(8,2)=noise;
+=======
+% noise=wmax/10;
+% W(7,1)=noise;
+% W(8,2)=noise;
+>>>>>>> 4785a7b9200fb9d2b505bef00f16a13951fd3b5f
 

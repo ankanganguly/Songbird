@@ -26,7 +26,7 @@ tau_STDP = 0.02;    %Time constant of learning in s
 tau_ada = 0.015;    %Inhibitary adaptation time constant
 
 %Initial variable values
-steps = 50000; 
+steps = 10000; 
 s = zeros(N,1);             %Activation 
 s_ada = zeros(N,1);         %Adaptation activation
 K = exp(0:-dt/tau_STDP:-(steps-1)*dt/tau_STDP)';

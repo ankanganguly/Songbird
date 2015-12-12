@@ -85,8 +85,15 @@ function IFmodelSTDP(rin, rin_min, eta, epsilon,IFinputs)
     colorbar
     title(strcat('Weight*Weight, ',Title))
 
-
-    filename=strcat('rin_',num2str(rin),' eta_',num2str(eta),' epsilon_',num2str(epsilon),'.mat');
+    % No noise
+    %filename=strcat('rin_',num2str(rin),' eta_',num2str(eta),' epsilon_',num2str(epsilon),'.mat');
+    % Noise
+    %filename=strcat('rin_',num2str(rin),' eta_',num2str(eta),' epsilon_',num2str(epsilon),' Noise.mat');
+    % Perfect Permutation Weight Matrix
+    filename=strcat('rin_',num2str(rin),' eta_',num2str(eta),' epsilon_',num2str(epsilon),' Perm.mat');
+    
+    
+    
     save(filename)
     %save(filename,'rin','eta','epsilon','burstst','W','x','Vt')
 end
