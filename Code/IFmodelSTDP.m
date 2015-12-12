@@ -1,8 +1,8 @@
 %% This file runs the integrate-and-burst model, and then save everything.
 
-function IFmodel(rin, rin_min, eta, epsilon)
+function IFmodelSTDP(rin, rin_min, eta, epsilon,IFinputs)
     %Load inputs
-    IFinputs;
+    run(IFinputs);
 
     %Derived constants
     FireSet = floor(Tburst/(3*dt));                                     %Interval during burst when we fire

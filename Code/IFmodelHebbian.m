@@ -1,6 +1,6 @@
 %% This file runs the integrate-and-burst model, and then save everything.
 
-function IFmodel(rin, rin_min, eta, epsilon)
+function IFmodelHebbian(rin, rin_min, eta, epsilon)
     %Load inputs
     IFinputs;
 
@@ -49,7 +49,7 @@ function IFmodel(rin, rin_min, eta, epsilon)
         %Hebbian + hLTP Learning
         unnormalized_Delta = x(t,:)'*x(t,:)*K(1);
         for j = 0 : min(t-1,lv)
-            unnormalized_Delta = unnormalized_Delta + K(j+1)*x(t,:)'*x(t - j,:);
+            unnormalized_Delta = unnormalized_Delta + K(j+1)*x(t,:)'*x(t - j,:);      % half of typical STDP - only enforces potentiation!!!!
         end
         Delta_Heb = (W/wmax + 0.001).*unnormalized_Delta;               %Calculate Delta_Heb
         %Thetacol = max(0,sum(W + eta*Delta_STDP,2) - wmax*m);          %Incoming
