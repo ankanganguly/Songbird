@@ -1,30 +1,30 @@
 %% plot the results from file BCM_RNN()
 
 
-
+clear
 load('BCM_RNN.mat')
-jump = 1;
+jump = 10;
 
 
 %% weight
-% figure();
-% hold on
-% for t=1:jump:steps
-%     Wcur(:,:) = Ws(t,:,1,:);
-%     
-%     subplot(2,1,1)
-%     imagesc(Wcur);
-%     title(sprintf('Weight; t=%d',t));
-%     colorbar;
-%     
-%     subplot(2,1,2)
-%     imagesc(Wcur*Wcur');
-%     title(sprintf('Weight*Weight; t=%d',t))
-%     colorbar;
-%     drawnow;
-%     
-% end
-% hold off
+figure();
+hold on
+for t=1:jump:steps
+    Wcur(:,:) = Ws(t,:,1,:);
+    
+    subplot(2,1,1)
+    imagesc(Wcur);
+    title(sprintf('Weight; t=%d',t));
+    colorbar;
+    
+    subplot(2,1,2)
+    imagesc(Wcur*Wcur');
+    title(sprintf('Weight*Weight; t=%d',t))
+    colorbar;
+    drawnow;
+    
+end
+hold off
 %save(h(1),'Weight.fig')
 
 

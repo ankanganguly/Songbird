@@ -5,21 +5,21 @@
 
 function BCM_RNN()
 
-%Sigmoid = @(v) 1/(1+exp(-0.4* v));
-%d_Sigmoid = @(v) 0.4*exp(-0.4*v)/(exp(-0.4*v)+1)^2;
+Sigmoid = @(v) 1/(1+exp(-0.4* v));
+d_Sigmoid = @(v) 0.4*exp(-0.4*v)/(exp(-0.4*v)+1)^2;  %derivative
 
 
-Sigmoid = @(v) 1/(1+exp(-v));
-d_Sigmoid = @(v) exp(v)/(exp(v)+1)^2;
+%Sigmoid = @(v) 1/(1+exp(-v));
+%d_Sigmoid = @(v) exp(v)/(exp(v)+1)^2;
 
 % For each output neuron, there are (N-1) input neurons.
 % input are composed of two components:
 % 1. other BCM neurons, for lateral inhibition.
 % 2. constant external signal
-N = 12;          % N BCM neurons.
+N = 8;          % N BCM neurons.
 N_in = 1;        % N_in external inputs.
-steps = 10000;
-dt = 0.001;
+steps = 1000;
+dt = 0.01;
 
 
 % first index is time. t
@@ -27,7 +27,7 @@ dt = 0.001;
 % third index is external input. j
 % fourth index is the other BCM neuron. k
 Ws=zeros(steps+1,N,N_in,N);         % weights, record
-W=rand(N,N_in,N);                   % weight, initial, 3D matrix 
+W=ones(N,N_in,N);                   % weight, initial, 3D matrix 
 Ws(1,:,:,:) = W;                          
 outs = zeros(steps+1,N);            % outputs, record, which are BCM neurons. 
 out = rand(N,1);                    % outputs, initial
@@ -42,7 +42,7 @@ phi = zeros(N,1);
 
 
 mu = 1/N;                           % inhibition strength
-eta = 0.001;
+eta = 0.1;
 tau = steps;
 X = zeros(N,1);                     % argument of Sigmoid function
 
@@ -61,6 +61,7 @@ save('BCM_RNN.mat')
 %% 
 % -------------------------------------------------------------------------
     function  update_output()
+        X = zeros(N,1);
         for i=1:N
             for j=1:N_in
                 for k=1:N
@@ -71,8 +72,7 @@ save('BCM_RNN.mat')
                             li = li + W(beta,j,k);
                         end
                     end
-                    li = mu * li;
-                    X(i) = X(i) + (W(i,j,k) - li) * in(j) * out(k);
+                    X(i) = X(i) + (W(i,j,k) - mu * li) * in(j) * out(k);
 
                 end
             end
@@ -115,7 +115,7 @@ save('BCM_RNN.mat')
                         else
                             dW(i,j,k) = dW(i,j,k) - d_Sigmoid(X(i))*phi(i)*mu*in(j)*out(k); 
                         end
-                    
+                        
                     end
                 end
             end
