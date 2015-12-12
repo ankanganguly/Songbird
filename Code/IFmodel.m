@@ -11,7 +11,9 @@ function IFmodel(rin, rin_min, eta, epsilon)
     %Recording
     Vt = zeros(steps,N);
     burstst = zeros(steps,N);
-
+    Ws = zeros(steps+1, N, N);
+    Ws(1,:,:) = W;
+    
     rng('default');                                                     %seeding the random number generator
     rng(1);
     %Run for each time step
@@ -57,6 +59,8 @@ function IFmodel(rin, rin_min, eta, epsilon)
         hLTP = repmat(Thetacol, 1,N) + repmat(Thetarow, N,1);           %Compute unnormalized hLTP
         W = max(0, W + eta*Delta_STDP - epsilon*eta*hLTP);               %Calculate new Weights
         W(W>wmax) = wmax;                                               %hard-limit
+        
+        Ws(t+1,:,:) = W;                                                %Record W
 
         if mod(t,1000) == 0
             t
