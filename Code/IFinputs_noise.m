@@ -14,7 +14,7 @@ tau_s   = 0.004;    %Time constant of synaptic activity in s
 %rin_min = 6000;
 
 N = 50;             %Number of neurons
-wmax = 0.14;        %Individual maximal weight
+wmax = 0.17;        %Individual maximal weight
 m = 1;              %Wmax/wmax
 %eta = 0.002;        %Learning step size
 %eta = 0.2;        %Learning step size
@@ -26,7 +26,7 @@ tau_STDP = 0.02;    %Time constant of learning in s
 tau_ada = 0.015;    %Inhibitary adaptation time constant
 
 %Initial variable values
-steps = 20000; 
+steps = 200000; 
 s = zeros(N,1);             %Activation 
 s_ada = zeros(N,1);         %Adaptation activation
 K = exp(0:-dt/tau_STDP:-(steps-1)*dt/tau_STDP)';
@@ -49,7 +49,7 @@ W = circshift(W,1);
 
 
 % add noise to Weight
-noise=wmax/10;
-W(7,1)=noise;
-W(8,2)=noise;
+%noise=wmax/10;
+%W(7,1)=noise;
+%W(8,2)=noise;
 
