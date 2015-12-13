@@ -11,6 +11,7 @@
 \usepackage{color}
 \usepackage{subfigure}
 \usepackage{commath}
+\usepackage{epstopdf}
 
 \begin{document}
 
@@ -46,9 +47,12 @@ When a neuron is not bursting, its potential is governed by a typical conductanc
 
 \begin{equation}
 \tau_V \od{V_i}{t} = -g^L(V - V^L) - g^E(V - V^E) - g^I(V - V^I)
+\label{Potential}
 \end{equation}
 
-Where \(g^L\) is the leak conductance
+The leak conductance, \(g^L\), is assumed to be a homogeneous constant input, as is the leak potential \(V^L\). Notice that in the absence of excitatory or inhibitory conductance, neuron \(i\) will tend to \(V^L\). Therefore we can say that the leak potential is also equal to the rest potential.
+
+The excitation potential, \(V^E\), and the inhibition potential, \(V^I\), act as 
 
 \subsection{Learning}
 
@@ -84,6 +88,10 @@ Introduce the big idea and what we got.
 
 \begin{itemize}
 \item Demonstrate the stability of our IB model by showing the firing rate plot and how it splits according to \(r_{in}\).
+
+\begin{figure}[H]
+\includegraphics[scale = 0.8]{../Code/PLOTS/Firing_Rate_Binsize_80ms.eps}
+\end{figure}
 
 \item Plot Weight and \(WW^T\) for 4000 and 6000 Hz to show some level of convergence.
 
