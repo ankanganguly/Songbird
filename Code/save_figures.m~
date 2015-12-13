@@ -1,19 +1,18 @@
 %Plot bursts
 h(1) = figure;
-imagesc([0 dt*], [logical(burstst'));
+imagesc(logical(burstst'));
 %title(['Bursts: rin=',num2str(rin), 'eta=', num2str(eta), 'epsilon=', num2str(epsilon)]);
-xlabel('Time (s)')
 colorbar       
 
 %Plot weights
 h(2) = figure;
-imagesc(W/wmax);
+imagesc(W);
 title(['Weights: rin=',num2str(rin), 'eta=', num2str(eta), 'epsilon=', num2str(epsilon)]);
 colorbar
 
 %Plot W*W'
 h(3) = figure;
-imagesc(W*W'/wmax^2);
+imagesc(W*W');
 title(['W*W: rin=',num2str(rin), 'eta=', num2str(eta), 'epsilon=', num2str(epsilon)]);
 colorbar
 
