@@ -3,7 +3,7 @@
 %       ErrFunct.m
 %       save_figures.m
 
-function open_run(Files_start, Files_end, Fileset, script)
+function open_run(Files_start, Files_end, Fileset, script)              % Fileset is a cell.
     for file = Files_start:Files_end
         filename = Fileset{file};
         load(filename);
