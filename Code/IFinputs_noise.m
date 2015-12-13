@@ -49,13 +49,7 @@ W = circshift(W,1);
 
 
 % add noise to Weight
-<<<<<<< HEAD
 %noise=wmax/10;
 %W(7,1)=noise;
 %W(8,2)=noise;
-=======
-% noise=wmax/10;
-% W(7,1)=noise;
-% W(8,2)=noise;
->>>>>>> 4785a7b9200fb9d2b505bef00f16a13951fd3b5f
 
