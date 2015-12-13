@@ -47,56 +47,6 @@ hold off
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 % 
 % % ONLY CARE ABOUT eta=2 or 0.2 and epsilon=0.0725
 % figure()
