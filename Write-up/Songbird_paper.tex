@@ -70,20 +70,19 @@ The inhibitory conductance, \(g^I\), is defined as the sum of the adaptation inh
 
 \subsection{Learning}
 
-The purpose of this paper is to replicate and test some of the claims made in \cite{Fiete}. One of the claims made is that the model used by \cite{Fiete} demonstrates how STDP can contribute to the synchronous regular synfiring chains exhibited in Zebra Finch \textcolor{red}{(Where? Maybe cite second paper here?)}. 
+The purpose of this paper is to replicate and test some of the claims made in \cite{Fiete}. One of the claims made is that the model used by \cite{Fiete} demonstrates how STDP can contribute to the synchronous regular synfiring chains exhibited in Zebra Finch \textcolor{red}{(Where? Maybe cite second paper here?)}. We implemented STDP, but we also implemented a pure Hebbian learning rule to demonstrate that STDP learning is not necessary for the model to exhibit synchronous regular firing chains.
 
-\subsubsection{STDP Learning}
-
-We followed \cite{Fiete} in our implementation of Learning. Define
+We followed \cite{Fiete} precisely in our implementation of STDP learning. Define
 
 \[K(t) = 
 \begin{cases}
-e^{-t/\tau_{STDP}} &\text{ if } t \neq 0\\
+e^{-t/\tau_{STDP}} &\text{ if } t > 0\\
+-e^{-t/\tau{STDP}} &\text{ if } t < 0\\
 0 &\text{ otherwise}
 \end{cases}
 \]
 
-as the STDP kernel. Let \(\rho(t) = \sum_{k} \delta(t - t_k)\)
+as the STDP kernel. For every pair of neurons
 
 \subsubsection{Hebbian Learning}
 
