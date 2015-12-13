@@ -1,0 +1,107 @@
+\documentclass[12pt, draft]{article}
+\usepackage[margin= 0.75in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{mathabx}
+\usepackage{ulem}
+\usepackage{enumerate}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{subfigure}
+
+\begin{document}
+
+\newtheorem{prop}{Proposition}
+
+\title{Think of a title later}
+\author{Ansel Blumers and Ankan Ganguly}
+\maketitle
+
+\begin{abstract}
+Abstract goes here.
+\end{abstract}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Write an introduction here.
+
+\section{Methods}
+
+In this paper, we used the simulated Integrate and Burst model introduced in \cite{Fiete}.
+
+\subsection{Integrate and Burst Model}
+
+Equations and paper reference here.
+
+\subsection{Learning}
+
+Introduction to what we did.
+
+\subsubsection{STDP Learning}
+
+Talk about STDP learning in this implementation.
+
+\subsubsection{Hebbian Learning}
+
+Talk about Hebbian learning here.
+
+\subsection{Parameter Choices}
+
+Talk about how we chose parameters here.
+
+\section{Results}
+
+Introduce the big idea and what we got.
+
+\subsection{Parameter Tuning}
+
+\begin{itemize}
+\item 4000 Hz doesn't work! (Burst Plot)
+
+\item Mention annealing and our choice of \(r_{in}, \eta\) and \(\epsilon\). Name the two data sets we refer to for the remainder of the paper. (Scatter Error Function)
+
+\item Setting \(w_{max}\). (Burst History)
+\end{itemize}
+
+\subsection{Convergence and Stability}
+
+\begin{itemize}
+\item Demonstrate the stability of our IB model by showing the firing rate plot and how it splits according to \(r_{in}\).
+
+\item Plot Weight and \(WW^T\) for 4000 and 6000 Hz to show some level of convergence.
+
+\item Plot error function over time from normal and from permutation matrix
+
+\item Describe why the error function converges away from 0.
+\end{itemize}
+
+\subsection{Hebbian Learning versus STDP}
+
+\begin{itemize}
+\item Introduce the idea of the refutation. 
+\item Give a theoretical description why the type of learning should be relatively unimportant.
+\item Compare plots (\(WW^T\), Error vs Time, Burst History).
+\end{itemize}
+
+\section{Discussion}
+
+Further improvements that could be made to our model and where this research could be taken.
+
+\section{Summary}
+
+Quick summary of our results and everything.
+
+
+
+\bibliographystyle{plain}
+\bibliography{Songbird_paper}
+
+\end{document}
