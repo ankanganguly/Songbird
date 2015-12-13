@@ -44,11 +44,5 @@ x = sparse(zeros(steps,N)); %Spike state
 %W = W(idx,:)*wmax;
 %W = ones(N)*wmax/N;               %Initial weights
 W = zeros(N);
-W(logical(eye(N))) = wmax/N;         % diagonal matrix
+W(logical(eye(N))) = wmax;         % diagonal matrix
 W = circshift(W,1);
-
-
-% add noise to Weight
-%noise=wmax/10;
-%W(7,1)=noise;
-%W(8,2)=noise;
