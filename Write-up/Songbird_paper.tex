@@ -1,4 +1,4 @@
-\documentclass[12pt, draft]{article}
+\documentclass[12pt, final]{article}
 \usepackage[margin= 0.75in]{geometry}
 \usepackage{amsfonts}
 \usepackage{amsthm}
@@ -8,10 +8,11 @@
 \usepackage{enumerate}
 \usepackage{float}
 \usepackage{graphicx}
+\graphicspath{{../Code/PLOTS/}}
 \usepackage{color}
 \usepackage{subfigure}
 \usepackage{commath}
-\usepackage{epstopdf}
+\usepackage[font = scriptsize]{caption}
 
 \begin{document}
 
@@ -90,7 +91,10 @@ Introduce the big idea and what we got.
 \item Demonstrate the stability of our IB model by showing the firing rate plot and how it splits according to \(r_{in}\).
 
 \begin{figure}[H]
-\includegraphics[scale = 0.8]{../Code/PLOTS/Firing_Rate_Binsize_80ms.eps}
+\centering
+\includegraphics[scale = 0.4]{Firing_Rate_Binsize_80ms.eps}
+\label{FR}
+\caption{Caption will go here}
 \end{figure}
 
 \item Plot Weight and \(WW^T\) for 4000 and 6000 Hz to show some level of convergence.
