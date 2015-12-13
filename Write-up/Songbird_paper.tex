@@ -10,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{subfigure}
+\usepackage{commath}
 
 \begin{document}
 
@@ -35,11 +36,19 @@ Write an introduction here.
 
 \section{Methods}
 
-In this paper, we used the simulated Integrate and Burst model introduced in \cite{Fiete}.
+In this paper, we used the simulated Integrate and Burst model introduced in \cite{Fiete}. We then implemented STDP learning and Hebbian learning.
 
 \subsection{Integrate and Burst Model}
 
-Equations and paper reference here.
+Our integrate and burst model was based off of the same equations as used in \cite{Fiete}. There are \(N\) neurons connected in an all-to-all environment. Each neuron \(i\) bursts when its membrane potential, \(V_i\), hits the threshold \(V_\theta\). We assume that every neuron bursts for \(T_{burst}\) time. While bursting, each neuron fires four times uniformly over the burst interval before resetting to \(V_{reset}\).
+
+When a neuron is not bursting, its potential is governed by a typical conductance based leaky integrate and fire model with built-in inhibition:
+
+\begin{equation}
+\tau_V \od{V_i}{t} = -g^L(V - V^L) - g^E(V - V^E) - g^I(V - V^I)
+\end{equation}
+
+Where \(g^L\) is the leak conductance
 
 \subsection{Learning}
 
