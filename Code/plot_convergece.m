@@ -3,28 +3,29 @@
 load('files_names.mat')
 
 
-% figure()
-% hold on
-% bin = 4000;              % dt=2e-5
-% for file = 1:length(files_names)
-%     filename = files_names{file};
-%     load(filename);
-%     
-%     %if rin==2000
-%     if true
-%         rate = [];
-%         tick = [];
-%         for i = 1:bin:(size(burstst,1)-bin)
-%             temp = sum(sum(x(i:i+bin,:)))/N/4/bin;     % x represents a burst which has 4 spikes.
-%             rate = [rate; temp];
-%             tick = [tick; mean([i,i+bin])];
-%         end
-%         
-%         plot(tick*dt,rate/dt)
-%     end
-% end
-% xlabel('Time (s)')
-% ylabel('Rate (burst/s)')
+figure()
+xlim([0 1.2])
+hold on
+bin = 4000;              % dt=2e-5
+for file = 1:length(files_names)
+    filename = files_names{file};
+    load(filename);
+    
+    %if rin==2000
+    if true
+        rate = [];
+        tick = [];
+        for i = 1:bin:(size(burstst,1)-bin)
+            temp = sum(sum(x(i:i+bin,:)))/N/4/bin;     % x represents a burst which has 4 spikes.
+            rate = [rate; temp];
+            tick = [tick; mean([i,i+bin])];
+        end
+        
+        plot(tick*dt,rate/dt)
+    end
+end
+xlabel('Time (s)')
+ylabel('Rate (bursts/s)')
 % title(sprintf('Convergence; Bin=%d',bin))
 
 
