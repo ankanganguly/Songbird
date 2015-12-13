@@ -1,36 +1,101 @@
 %% This file plots Error related graphes.
 
-
+% load data
 load('Errfunct.mat')
-rin=Error(:,1);
+rin=Error(:,1)*1000;        % convert from ms to second.
 eta=Error(:,2);
 epl=Error(:,3);
 E=Error(:,4);
 
 
+% Error Values - All Runs
 figure()
 scatter(rin,E)
-label = strcat(' (',num2str(eta),', ',num2str(epl),')');
-text(rin,E,label,'HorizontalAlignment','left')
-xlabel('r_{in}')
+xlim([2000 14000]*1000)
+% plot again (overlay), and add text on specific points
+hold on
+indx = find(E<0.83);
+scatter(rin(indx), E(indx))
+label = strcat(' (',num2str(eta(indx)),', ',num2str(epl(indx)),')');
+text(rin(indx),E(indx),label,'HorizontalAlignment','left')
+legend('(\eta, \epsilon)','Location','southeast')
+xlabel('r_{in} (1/s)')
 ylabel('Error')
 title('All runs')
-xlim([2000 14000])
-legend('(\eta, \epsilon)','Location','southeast')
+hold off
 
 
+
+% Error Values - runs when eta*epsilon is constant
+figure()
 prod=Error(:,2).*Error(:,3);
 c_prod = 0.1450;                        % the constant product
 indx = find(prod==c_prod);
-figure()
+scatter(rin(indx),E(indx))
+xlim([2000 14000]*1000)
+% plot again (overlay), and add text on specific points
+hold on
+indx = find(prod==c_prod & E<0.9);
 scatter(rin(indx),E(indx))
 label = strcat(' (',num2str(eta(indx)),', ',num2str(epl(indx)),')');
 text(rin(indx),E(indx),label,'HorizontalAlignment','left')
-title('Selected Runs; Constant=(\epsilon*\eta')
-xlabel('r_{in}')
-ylabel('Error')
-xlim([2000 14000])
 legend('(\eta, \epsilon)','Location','southeast')
+xlabel('r_{in} (1/s)')
+ylabel('Error')
+title('Selected Runs; Constant \epsilon*\eta')
+hold off
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 % 
 % % ONLY CARE ABOUT eta=2 or 0.2 and epsilon=0.0725

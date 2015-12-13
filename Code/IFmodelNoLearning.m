@@ -1,8 +1,13 @@
 %% This file runs the integrate-and-burst model, and then save everything.
 
 function IFmodelNoLearning(rin, rin_min, eta, epsilon, IFinputs)
+
+
+    % run with different wmax 
+    
+
     %Load inputs
-    run(IFinputs);
+    run(IFinputs_Permutation.m);
 
     %Derived constants
     FireSet = floor(Tburst/(3*dt));                                     %Interval during burst when we fire
@@ -70,5 +75,4 @@ function IFmodelNoLearning(rin, rin_min, eta, epsilon, IFinputs)
 
     filename=strcat('rin_',num2str(rin),' eta_',num2str(eta),' epsilon_',num2str(epsilon),'.mat');
     save(filename)
-    %save(filename,'rin','eta','epsilon','burstst','W','x','Vt')
 end
