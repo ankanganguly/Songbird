@@ -1,9 +1,14 @@
-Introduce the big idea and what we got.
+We were primarily interested in two major results produced in \cite{Fiete}. First, we were interested the occurrence of long synfire chains with synchronous regular firing. We also investigated the paper's claim that STDP learning with \(w_{max} = W_{max}\) converged to scaled permutation matrices.
+
+Though we tried to replicate the algorithm described in \cite{Fiete}, we were unable to produce a stable system with the provided inputs, so we had to tune the parameters a bit. We eventually found parameters at which burst rates were steady and believable. 
+
+With the parameters we found, we were able to observe weaker versions of most of the observations in the paper. We found that weight matrices converged near permutation matrices and we were able to observe some short sequences of firing chains, but we did not see the synchronous regular behavior exhibited in the paper.
+
+Finally, we replaced STDP learning with Hebbian learning and demonstrated that the weights of a system undergoing Hebbian learning with soft and hard limits converged as closely or better to permutation matrices than they did under STDP learning.
 
 \subsection{Parameter Tuning}
 
-\begin{itemize}
-\item 4000 Hz doesn't work! (Burst Plot)
+Although our model was constructed to be identical to the model used in \cite{Fiete}, we were unable to use the same parameters as the paper. As an example, the paper claimed to set \(r_{in}\), external input, at 4 Hz. At 4 Hz, we were unable to get our system to fire at all! We assumed it was a typo (the rest of the parameters were given in terms of ms), and attempted running our simulation at 4000Hz. Even 4000Hz was not enough to get the system started, so we tried simulated annealing. The system began with 10000Hz of stimulation, which decreased steadily to 4000Hz. We did this again, but this time stopped at 6000Hz. The difference was striking (see figure \ref{burstSTDP}). 
 
 \begin{figure}[H]
 \centering
@@ -18,18 +23,24 @@ Introduce the big idea and what we got.
 \caption{6000 Hz}
 \label{burstSTDP:6000}
 \end{subfigure}
-\caption{Compare the two}
+\caption{In figure 4 of \cite{Fiete}, the authors displayed a burst plot in which each neuron burst every 75 ms with high synchrony and regularity. We did not observe such synchrony in either plot, but the average frequency of firing in (b) was approximately 75 ms. Notice both systems exhibited exaggerated firing in the beginning. This was a consequence of simulated annealing.}
 \label{burstSTDP}
 \end{figure}
 
-\item Mention annealing and our choice of \(r_{in}, \eta\) and \(\epsilon\). Name the two data sets we refer to for the remainder of the paper. (Scatter Error Function)
+Beside \(r_{in}\), we spent a lot of time finding appropriate values for \(\eta\) and \(\epsilon\). 
+
+\(\eta\) is the learning step-size. If \(\eta\) is too small, the weight matrix will not converge in a reasonable amount of time. If it is too large, whenever the weight matrix overshoots the soft limit, it will do so by a large margin, which will prompt large corrective measures, so convergence to a permutation matrix (which is barely under the soft limit), will not be plausible.
+ 
+\(\epsilon\) is the strength of the soft limit. If \(\epsilon\) is too small, then when the weight matrix passes the soft limit it will not experience very strong hLTD. This will have the effect of weakening heterosynaptic competition. If \(\epsilon\) is too large, then each time the weight matrix passes the soft limit, it will experience very strong hLTD. Because the permutation matrix is on the border of the soft limit, having a large \(\epsilon\) will make any permutation matrix an unstable critical point in our simulation.
+
+To evaluate these, we ran the simulation on a large combination of parameter values for \(r_{in}, \eta\) and \(\epsilon\). For each of these, we tested convergence using an error function (see section 3.2). The results are shown below:
 
 \begin{figure}[H]
 \centering
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Error_Scatter_all.eps}
 \label{Error_scatter: all}
-\caption{Scatterplot of all errors}
+\caption{Errors of all simulations run}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
@@ -41,7 +52,7 @@ Introduce the big idea and what we got.
 \caption{Compare the two}
 \end{figure}
 
-\item Setting \(w_{max}\). (Burst History)
+Setting \(w_{max}\). (Burst History)
 
 \begin{figure}[H]
 \centering
@@ -71,7 +82,7 @@ Introduce the big idea and what we got.
 \label{Burst_no_learning}
 \caption{Compare the four}
 \end{figure}
-\end{itemize}
+
 
 \subsection{Convergence and Stability}
 
@@ -166,7 +177,7 @@ Introduce the big idea and what we got.
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
-\includegraphics[width = \textwidth]{WW_6000Hz.eps}
+\includegraphics[width = \textwidth]{ErrorOverTime_6000Hz_normal.eps}
 \label{Compare: EoT_STDP}
 \caption{Error over time of STDP plot}
 \end{subfigure}
