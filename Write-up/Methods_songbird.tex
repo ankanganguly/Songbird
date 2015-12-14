@@ -36,12 +36,12 @@ We followed \cite{Fiete} precisely in our implementation of STDP learning. Defin
 \[K(t) = 
 \begin{cases}
 e^{-t/\tau_{STDP}} &\text{ if } t > 0\\
--e^{-t/\tau{STDP}} &\text{ if } t < 0\\
+-e^{-t/\tau_{STDP}} &\text{ if } t < 0\\
 0 &\text{ otherwise}
 \end{cases}
 \]
 
-as the STDP kernel. For every pair of neurons \(i,j\), let \(t_i < t_j\) be two times when \(i\) and \(j\) fired respectively. Then According to STDP, the weight matrix element \(W_{ij}\) should increase proportional to \(K(t_j - t_i)\). Notice that the change in \(W\) according to STDP is approximately anti-symmetric. \cite{Fiete} strengthened the nonlinearity of STDP by making STDP growth of a synapse proportional to the strength of that synapse (with an added factor so 0 weight synapses could grow). In particular, the paper defined:
+\noindent as the STDP kernel. For every pair of neurons \(i,j\), let \(t_i < t_j\) be two times when \(i\) and \(j\) fired respectively. Then According to STDP, the weight matrix element \(W_{ij}\) should increase proportional to \(K(t_j - t_i)\). Notice that the change in \(W\) according to STDP is approximately anti-symmetric \cite{Fiete} - strengthened the nonlinearity of STDP by making STDP growth of a synapse proportional to the strength of that synapse (with an added factor so 0 weight synapses could grow). In particular, the paper defined:
 
 \begin{equation}
 \Delta^{STDP}_{ij}(t) = \left(\frac{W_{ij}(t-1)}{w_{max}} + 0.001\right)*\left(x_i(t)K(0)x_j(t) + \sum_{\tau = 0}^t  [x_i(t)K(\tau)x_j(t -\tau) - x_i(t - \tau)K(\tau)x_j(t)]\right)
@@ -57,7 +57,7 @@ However, the key innovation of this paper was to introduce a secondary source of
 \label{hLTD}
 \end{equation}
 
-\(\theta^{col}\) denotes the amount by which the soft limit has been exceeded. Define \(\theta^{row}\) similarly. Then,
+\noindent where \(\theta^{col}\) denotes the amount by which the soft limit has been exceeded. Define \(\theta^{row}\) similarly. Then,
 
 \begin{equation}
 \od{W_{ij}}{t} = \eta\Delta^{STDP}_{ij} - \epsilon(\theta^{col}_i + \theta^{row}_j)
@@ -78,7 +78,7 @@ We actually implemented the results incorrectly based on a typo in \cite{Fiete}.
 \label{Learning-wrong}
 \end{equation}
 
-As demonstrated in sections 3 and 4, this causes some significant issues with convergence. Unfortunately, we noticed the problem too late into the project to redo the simulations.
+As demonstrated in sections 3 and 4, this causes some significant issues with convergence. Unfortunately, we noticed the problem too late into the project to redo the simulations. After some tests, we conclude that the overall network behavior is basically the same as the correct implementation.  
 
 \subsubsection{Hebbian Learning}
 
