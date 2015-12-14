@@ -1,8 +1,8 @@
-In this paper, we used the simulated Integrate and Burst model introduced in \cite{Fiete}. We then implemented STDP learning and Hebbian learning.
+In this paper, we used the simulated Integrate and Burst (IB) model introduced in \cite{Fiete}. We then implemented STDP learning and Hebbian learning.
 
 \subsection{Integrate and Burst Model}
 
-Our integrate and burst model is an implementation of equations described in \cite{Fiete}. We provide a detailed description of those equations here, with more attention paid to the intuition behind these equations. There are \(N\) neurons connected in an all-to-all environment. Each neuron \(i\) bursts when its membrane potential, \(V_i\), hits the threshold \(V_\theta\). We assume that every neuron bursts for \(T_{burst}\) time. While bursting, each neuron fires four times uniformly over the burst interval before resetting to \(V_{reset}\).
+Our IB model is an implementation of equations described in \cite{Fiete}. We provide a detailed description of those equations here, with more attention paid to the intuition behind these equations. There are \(N\) neurons connected in an all-to-all environment. Each neuron \(i\) bursts when its membrane potential, \(V_i\), hits the threshold \(V_\theta\). We assume that every neuron bursts for \(T_{burst}\) time. While bursting, each neuron fires four times uniformly over the burst interval before resetting to \(V_{reset}\).
 
 When a neuron is not bursting, its potential is governed by a typical conductance based leaky integrate and fire model with built-in inhibition:
 
@@ -57,7 +57,7 @@ However, the key innovation of this paper was to introduce a secondary source of
 \label{hLTP}
 \end{equation}
 
-\(\theta^{col}\) denotes the amount by which the soft limit has been exceeded \footnote{Our implementation was a little different and \cite{Fiete} defined \(\theta^{col}\) differently, however this is the correct way to define \(\theta^{col}\). See the results and discussion for more details.}. Define \(\theta^{row}\) similarly. Then,
+\(\theta^{col}\) denotes the amount by which the soft limit has been exceeded. Define \(\theta^{row}\) similarly. Then,
 
 \begin{equation}
 \od{W_{ij}}{t} = \eta\Delta^{STDP}_{ij} - \epsilon(\theta^{col}_i + \theta^{row}_j)
@@ -65,6 +65,20 @@ However, the key innovation of this paper was to introduce a secondary source of
 \end{equation}
 
 This updates weights according to STDP along with a penalty if the soft limit is exceeded. Finally, to ensure that STDP never diverges, we implement a hard limit. If any element \(W_{ij}(t) > w_{max}\), where \(w_{max}\) is a constant parameter, we manually set \(W_{ij}(t)\) to \(w_{max}\). 
+
+We actually implemented the results incorrectly based on a typo in \cite{Fiete}. Our implementation used the following equations:
+
+\begin{equation}
+\theta^{col}_i =  \left[\sum_{j=1}^N (W_{ij} + \Delta^{STDP}_{ij}) - W_{max}\right]^+
+\label{hLTP-wrong}
+\end{equation}
+
+\begin{equation}
+\od{W_{ij}}{t} = \eta\Delta^{STDP}_{ij} - \eta\epsilon(\theta^{col}_i + \theta^{row}_j)
+\label{Learning-wrong}
+\end{equation}
+
+As demonstrated in sections 3 and 4, this causes some significant issues with convergence. Unfortunately, we noticed the problem too late into the project to redo the simulations.
 
 \subsubsection{Hebbian Learning}
 
@@ -92,7 +106,7 @@ gives us a Hebbian learning rule. We implemented the soft and hard synaptic weig
 
 \subsection{Parameter Choices}
 
-Our implementation of the Integrate and Burst neuron network with STDP learning matched that used in \cite{Fiete} in many cases. However a few parameters were chosen differently. The table below provides a list of parameters we used:
+Our implementation of the IB neuron network with STDP learning matched that used in \cite{Fiete} in many cases. However a few parameters were chosen differently. The table below provides a list of parameters we used:
 
 \begin{center}
 \begin{tabular}{|c|c|p{0.5cm}|c|c|p{0.5 cm}|c|c|}

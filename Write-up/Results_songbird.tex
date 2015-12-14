@@ -33,121 +33,123 @@ Beside \(r_{in}\), we spent a lot of time finding appropriate values for \(\eta\
  
 \(\epsilon\) is the strength of the soft limit. If \(\epsilon\) is too small, then when the weight matrix passes the soft limit it will not experience very strong hLTD. This will have the effect of weakening heterosynaptic competition. If \(\epsilon\) is too large, then each time the weight matrix passes the soft limit, it will experience very strong hLTD. Because the permutation matrix is on the border of the soft limit, having a large \(\epsilon\) will make any permutation matrix an unstable critical point in our simulation.
 
-To evaluate these, we ran the simulation on a large combination of parameter values for \(r_{in}, \eta\) and \(\epsilon\). For each of these, we tested convergence using an error function (see section 3.2). The results are shown below:
+To evaluate these, we ran the simulation on a large combination of parameter values for \(r_{in}, \eta\) and \(\epsilon\) (see figure \ref{Error_scatter: all}). For each of these, we tested convergence using an error function (see section 3.2). Then we isolated the product \(\eta\epsilon\) which seemed to yield the best results (see figure \ref{Error_scatter: constant product}).
 
 \begin{figure}[H]
 \centering
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Error_Scatter_all.eps}
-\label{Error_scatter: all}
 \caption{Errors of all simulations run}
+\label{Error_scatter: all}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Error_Scatter_constantproduct.eps}
+\caption{Errors of all simulations with \(\eta\epsilon = 0.145\)}
 \label{Error_scatter: constant product}
-\caption{Scatterplot of all errors with constant product}
 \end{subfigure}
 \label{Error_scatter}
-\caption{Compare the two}
+\caption{Recall from \eqref{Learning-wrong} that in our implementation, \(\eta\) and \(\eta\epsilon\) are important tuning parameters for the rate of convergence. In all cases, we ran the algorithm for 50000 time steps with \(dt = 2\times 10^{-5}\)s. Notice that all error values are very high. (a) This is a plot of every simulation we ran. The best results are labeled. (b) This is a  plot of the subset of points from (a) where \(\eta\epsilon = 0.145\).}
 \end{figure}
 
-Setting \(w_{max}\). (Burst History)
+The best two combinations of parameters seemed to be \((r_{in},\eta,\epsilon) = \)(4000Hz, 2, 0.0725) and (6000Hz, 0.2, 0.0725). For the rest of the paper, we used these parameters unless otherwise noted.
+
+Finally, we tried running a playback sequence with a fixed permutation weight matrix. By symmetry, according to the model if one permutation matrix is a stable point, then all of them must be. Therefore we fixed \(W\) to be a permutation matrix. For convenience, we assumed this permutation matrix was a large cycle. We ran it without modification to observe burst patterns for differing values of \(w_{max}\) (see figure \ref{Burst_no_learning}).
 
 \begin{figure}[H]
 \centering
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Burst_nolearning_perm_6000Hz_wmax0.14.eps}
+\caption{Bursts without learning, \(w_{max} = 0.14\).}
 \label{Burst_no_learning: 0.14}
-\caption{Bursts without learning, \(w_max = 0.14\).}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Burst_nolearning_perm_6000Hz_wmax0.3.eps}
+\caption{Bursts without learning, \(w_{max} = 0.3\).}
 \label{Burst_no_learning: 0.3}
-\caption{Bursts without learning, \(w_max = 0.3\).}
 \end{subfigure}
 \\
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Burst_nolearning_perm_6000Hz_wmax0.5.eps}
+\caption{Bursts without learning, \(w_{max} = 0.5\).}
 \label{Burst_no_learning: 0.5}
-\caption{Bursts without learning, \(w_max = 0.5\).}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Burst_nolearning_perm_6000Hz_wmax0.7.eps}
+\caption{Bursts without learning, \(w_{max} = 0.7\).}
 \label{Burst_no_learning: 0.7}
-\caption{Bursts without learning, \(w_max = 0.7\).}
 \end{subfigure}
+\caption{We ran the simulation for 50000 time steps at \(dt = 2\times 10^{-5}\)s with \(r_{in} = 6000\)Hz. As expected, for high values of \(w_{max}\), we witnessed high regularity, synchrony and long firing chains. At our default value of \(w_{max} = 0.14\) we witnessed a few small firing chains, but much more irregular firing.}
 \label{Burst_no_learning}
-\caption{Compare the four}
 \end{figure}
 
+At our default \(w_{max}\) value, the IB model was unable to maintain the patterns of long sequential firing observed in \cite{Fiete}, however larger \(w_{max}\) values did display these patterns.
 
 \subsection{Convergence and Stability}
 
-\begin{itemize}
-\item Demonstrate the stability of our IB model by showing the firing rate plot and how it splits according to \(r_{in}\).
+Our IB model with STDP learning very quickly developed a stable bursting rate. Given up to about 4000Hz of external stimulation, this bursting rate was essentially 0, but for more stimulation the bursting rate was consistent. The neurons in the network constructed in figure 4 of \cite{Fiete}, on which our paper was based, bursted every 75 ms or so. From figure \ref{FR}, we can see that this corresponds to an external stimulation of slightly less than 8000Hz in our model.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.4]{Firing_Rate_Binsize_80ms.eps}
+\caption{The plot above measures the average firing rate of a neuron in the recurrent network over time over approximately 50 simulations. Notice that the average firing rate converges cleanly to different values dependent only on \(r_{in}\).}
 \label{FR}
-\caption{Caption will go here}
 \end{figure}
 
-\item Plot Weight and \(WW^T\) for 4000 and 6000 Hz to show some level of convergence.
+From this we concluded that our base IB model was stable. The next thing we needed to test for was convergence of our weight matrix under STDP with soft and hard limits to a permutation matrix. Recall that all permutation matrices \(P\) satisfy \(PP^T = I\). So, while we can visually inspect heat maps of \(W\) to see if it's close to a permutation matrix, it is easier to look at how \(WW^T\) compares to \(w_{max}^2I\) (see figure \ref{Weights}).
 
 \begin{figure}[H]
 \centering
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Weights_4000Hz.eps}
+\caption{Weight matrix of 4000Hz external input with annealing}
 \label{Weights: 4000Hz, basic}
-\caption{Weight matrix of 4000Hz annealed}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Weights_6000Hz.eps}
+\caption{Weight matrix of 6000Hz external input with annealing}
 \label{Weights: 6000Hz, basic}
-\caption{Weight matrix of 6000Hz annealed}
 \end{subfigure}
 \\
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{WW_4000Hz.eps}
+\caption{\(WW^T\) of 4000Hz with annealing}
 \label{Weights: 4000Hz, product}
-\caption{\(WW^T\) of 4000Hz annealed}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{WW_6000Hz.eps}
+\caption{\(WW^T\) of 6000Hz with annealing}
 \label{Weights: 6000Hz, product}
-\caption{\(WW^T\) of 6000Hz annealed}
 \end{subfigure}
+\caption{After running each simulation for 50000 time steps with \(dt = 2\times 10^{-5}\)s we plotted \textcolor{red}{Here I am}}
 \label{Weights}
-\caption{Compare the four}
 \end{figure}
 
-\item Plot error function over time from normal and from permutation matrix
+Plot error function over time from normal and from permutation matrix
 
 \begin{figure}[H]
 \centering
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{ErrorOverTime_6000Hz_normal.eps}
-\label{Error_over_time: normal}
 \caption{Plot of error in weights over time starting from a full connection weight matrix.}
+\label{Error_over_time: normal}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{ErrorOverTime_6000Hz_Perm.eps}
-\label{Error_over_time: permutation}
 \caption{Plot of error in weights over time starting from a permutation weight matrix.}
+\label{Error_over_time: permutation}
 \end{subfigure}
-\label{Error_over_time}
 \caption{Compare the two}
+\label{Error_over_time}
 \end{figure}
 
-\item Describe why the error function converges away from (mistake, see discussion).
-\end{itemize}
+Describe why the error function converges away from (mistake, see discussion).
+
 
 \subsection{Hebbian Learning versus STDP}
 
@@ -160,40 +162,40 @@ Setting \(w_{max}\). (Burst History)
 \centering
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{WW_6000Hz_Hebbian.eps}
-\label{Compare: WW_Hebbian}
 \caption{Multiplied weight matrix with Hebbian learning}
+\label{Compare: WW_Hebbian}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{WW_6000Hz.eps}
-\label{Compare: WW_STDP}
 \caption{Multiplied weight matrix with STDP learning}
+\label{Compare: WW_STDP}
 \end{subfigure}
 \\
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{ErrorOverTime_6000Hz_Hebbian.eps}
-\label{Compare: EoT_Hebbian}
 \caption{Error over time of Hebbian plot}
+\label{Compare: EoT_Hebbian}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{ErrorOverTime_6000Hz_normal.eps}
-\label{Compare: EoT_STDP}
 \caption{Error over time of STDP plot}
+\label{Compare: EoT_STDP}
 \end{subfigure}
 \\
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Burst_plot_6000Hz_Hebbian.eps}
-\label{Compare: BH_Hebbian}
 \caption{Burst history of Hebbian plot}
+\label{Compare: BH_Hebbian}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{Burst_plot_6000Hz.eps}
-\label{Compare: BH_STDP}
 \caption{Burst history of STDP plot}
+\label{Compare: BH_STDP}
 \end{subfigure}
-\label{Compare}
 \caption{Compare STDP to Hebbian}
+\label{Compare}
 \end{figure}
 \end{itemize}
