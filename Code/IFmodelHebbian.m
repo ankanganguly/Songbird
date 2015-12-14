@@ -1,8 +1,8 @@
 %% This file runs the integrate-and-burst model, and then save everything.
 
-function IFmodelHebbian(rin, rin_min, eta, epsilon)
+function IFmodelHebbian(rin, rin_min, eta, epsilon,inputs)
     %Load inputs
-    IFinputs;
+    run(inputs);
 
     %Derived constants
     FireSet = floor(Tburst/(3*dt));                                     %Interval during burst when we fire
@@ -73,19 +73,26 @@ function IFmodelHebbian(rin, rin_min, eta, epsilon)
 
 
     figure()
-    imagesc(logical(burstst'))
-    Title=strcat('rin=',num2str(rin),' eta=',num2str(eta),' epsilon=',num2str(epsilon));
-    title(strcat('Bursts, ',Title))
+    imagesc([0 dt*steps], [1 N], logical(burstst'));
+    title(['Bursts: rin=',num2str(rin), ' eta=', num2str(eta), ' epsilon=', num2str(epsilon),' wmax=',num2str(wmax)]);
+    xlabel('Time (s)')
+    ylabel('Neuron ID')
+    
     figure()
-    imagesc(W)
+    imagesc([1,N], [1 N], W/wmax);
+    title(['Weights: rin=',num2str(rin), ' eta=', num2str(eta), ' epsilon=', num2str(epsilon),' wmax=',num2str(wmax)]);
+    xlabel('Neuron ID')
+    ylabel('Neuron ID')
     colorbar
-    title(strcat('Weights, ',Title))
+    
     figure()
-    imagesc(W*W')
+    imagesc(W*W'/wmax^2);                       % normalized
+    title(['W*W: rin=',num2str(rin), ' eta=', num2str(eta), ' epsilon=', num2str(epsilon),' wmax=',num2str(wmax)]);
+    xlabel('Neuron ID')
+    ylabel('Neuron ID')
     colorbar
-    title(strcat('Weight*Weight, ',Title))
+    
 
-
-    filename=strcat('rin_',num2str(rin),' eta_',num2str(eta),' epsilon_',num2str(epsilon),'.mat');
+    filename=strcat('rin_',num2str(rin),' eta_',num2str(eta),' epsilon_',num2str(epsilon),' wmax_',num2str(wmax),' Hebbian.mat');
     save(filename)
 end
