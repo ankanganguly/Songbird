@@ -52,12 +52,13 @@ function IFmodelSTDP(rin, rin_min, eta, epsilon,IFinputs)
             unnormalized_Delta = unnormalized_Delta + K(j+1)*(x(t,:)'*x(t - j,:) - x(t - j,:)'*x(t,:));
         end
         Delta_STDP = (W/wmax + 0.001).*unnormalized_Delta;              %Calculate Delta_STDP
-        %Thetacol = max(0,sum(W + eta*Delta_STDP,2) - wmax*m);               %Incoming
-        %Thetarow = max(0,sum(W + eta*Delta_STDP,1) - wmax*m);               %Outgoing
-        Thetacol = max(0,sum(W + Delta_STDP,2) - wmax*m);               %Incoming
-        Thetarow = max(0,sum(W + Delta_STDP,1) - wmax*m);               %Outgoing
+        Thetacol = max(0,sum(W + eta*Delta_STDP,2) - wmax*m);               %Incoming
+        Thetarow = max(0,sum(W + eta*Delta_STDP,1) - wmax*m);               %Outgoing
+        %Thetacol = max(0,sum(W + Delta_STDP,2) - wmax*m);               %Incoming
+        %Thetarow = max(0,sum(W + Delta_STDP,1) - wmax*m);               %Outgoing
         hLTP = repmat(Thetacol, 1,N) + repmat(Thetarow, N,1);           %Compute unnormalized hLTP
-        W = max(0, W + eta*Delta_STDP - epsilon*eta*hLTP);               %Calculate new Weights
+        %W = max(0, W + eta*Delta_STDP - epsilon*eta*hLTP);               %Calculate new Weights
+        W = max(0, W + eta*Delta_STDP - epsilon*hLTP);               %Calculate new Weights
         W(W>wmax) = wmax;                                               %hard-limit
         
         Ws(t+1,:,:) = W;                                                %Record W        
