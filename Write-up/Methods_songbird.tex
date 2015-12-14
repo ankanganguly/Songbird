@@ -13,7 +13,7 @@ When a neuron is not bursting, its potential is governed by a typical conductanc
 
 The leak conductance, \(g^L\), is assumed to be a homogeneous constant input, as is the leak potential \(V^L\). Notice that in the absence of excitatory or inhibitory conductance, neuron \(i\) will tend to \(V^L\). Therefore we can say that the leak potential is also equal to the rest potential.
 
-The excitation potential, \(V^E\), and the inhibition potential, \(V^I\), act as upper and lower bounds on untethered \textcolor{red}{(What was the word for IF potential plots without a firing threshold?)} potential respectively. 
+The excitation potential, \(V^E\), and the inhibition potential, \(V^I\), act as upper and lower bounds on untethered potential respectively. 
 
 The excitation conductance, \(g^L\), is defined by the activity in neighboring neurons as well by external random stimulation:
 
@@ -27,7 +27,7 @@ The inhibitory conductance, \(g^I\), is defined as the sum of the adaptation inh
 
 \subsection{Learning}
 
-The purpose of this paper is to replicate and test some of the claims made in \cite{Fiete}. One of the claims made is that the model used by \cite{Fiete} demonstrates how STDP can contribute to the synchronous regular synfiring chains exhibited in Zebra Finch \textcolor{red}{(Where? Maybe cite second paper here?)}. We implemented STDP, but we also implemented a pure Hebbian learning rule to demonstrate that STDP learning is not necessary for the model to exhibit synchronous regular firing chains.
+The purpose of this paper is to replicate and test some of the claims made in \cite{Fiete}. One of the claims made is that the model used by \cite{Fiete} demonstrates how STDP can contribute to the synchronous regular synfiring chains exhibited in Zebra Finch \cite{Hahnloser2002}. We implemented STDP, but we also implemented a pure Hebbian learning rule to demonstrate that STDP learning is not necessary for the model to exhibit synchronous regular firing chains.
 
 \subsubsection{STDP Learning}
 
@@ -50,11 +50,11 @@ as the STDP kernel. For every pair of neurons \(i,j\), let \(t_i < t_j\) be two 
 
 Where \(x_i(t)\) is a binary variable taking the value 1 if neuron \(i\) fired at time \(t\). So, at each time \(t\), \(\Delta^{STDP}(t)\) is proportional to the change in \(W\) with respect to STDP. Our implementation assumed \(K(t) \approx 0\) for \(t > 4\)ms.
 
-However, the key innovation of this paper was to introduce a secondary source of competition. If the total strength of all synapses into or out of a given neuron exceed a soft limit \(W_{max}\) after STDP learning, then all such synapses experience long-term depression (LTD) proportional to the amount by which the soft limit is exceeded:
+However, the key innovation of this paper was to introduce a secondary source of competition. If the total strength of all synapses into or out of a given neuron exceed a soft limit \(W_{max}\) after STDP learning, then all such synapses experience heterosynaptic long-term depression (hLTD) proportional to the amount by which the soft limit is exceeded:
 
 \begin{equation}
 \theta^{col}_i =  \left[\sum_{j=1}^N (W_{ij} + \eta\Delta^{STDP}_{ij}) - W_{max}\right]^+
-\label{hLTP}
+\label{hLTD}
 \end{equation}
 
 \(\theta^{col}\) denotes the amount by which the soft limit has been exceeded. Define \(\theta^{row}\) similarly. Then,
@@ -70,7 +70,7 @@ We actually implemented the results incorrectly based on a typo in \cite{Fiete}.
 
 \begin{equation}
 \theta^{col}_i =  \left[\sum_{j=1}^N (W_{ij} + \Delta^{STDP}_{ij}) - W_{max}\right]^+
-\label{hLTP-wrong}
+\label{hLTD-wrong}
 \end{equation}
 
 \begin{equation}
