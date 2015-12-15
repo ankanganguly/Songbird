@@ -1,4 +1,4 @@
-Our model was plagued by a number of small problems which we did not have the time to address. The most severe of these problems was our use of the incorrect equations \eqref{hLTD-wrong} and \eqref{Learning-wrong} presented in \cite{Fiete} instead of equations \eqref{hLTD} and \eqref{Learning}. Why are these equations wrong? In this model, hLTD depresses all synapses to or from a particular neuron if STDP alone would have pushed in synapses over the soft limit. However, the equations for \(\theta^{col},\theta^{row}\) check to see if \(W + \Delta^{STDP}\) increase beyond the soft limit. However, that is a meaningless quantity. Instead, the equations should check to see if \(W + \eta\Delta^{STDP} = W\) updated by STDP alone is greater than the soft limit. Equation \eqref{Learning-wrong} is not technically incorrect, since for different choices of \((\eta,\epsilon)\) it is equivalent to equation \eqref{Learning}. However, it introduces unnecessary complications, whereas equation \eqref{Learning} has two independent learning coefficients.
+Our model was plagued by a number of small problems which we did not have the time to address. The most severe of these problems was our use of the incorrect equations \eqref{hLTD-wrong} and \eqref{Learning-wrong} presented in \cite{Fiete} instead of equations \eqref{hLTD} and \eqref{Learning}. Why are these equations wrong? In this model, hLTD depresses all synapses to or from a particular neuron if STDP alone would have pushed in synapses over the soft limit. However, the equations for \(\theta^{col},\theta^{row}\) check to see if \(W + \Delta^{STDP}\) increase beyond the soft limit. \(W + \Delta^{STDP}\) is a meaningless quantity. Instead, the equations should check to see if \(W + \eta\Delta^{STDP}\), which is equal to \(W\) updated by STDP alone, is greater than the soft limit. Equation \eqref{Learning-wrong} is not technically incorrect, since for different choices of \((\eta,\epsilon)\) it is equivalent to equation \eqref{Learning}. However, it introduces unnecessary complications, whereas equation \eqref{Learning} has two independent learning coefficients.
 
 To see the effect of this, observe a graph of the error function starting from a permutation matrix with the correct method vs our implementation (figure \ref{EoT}):
 
@@ -6,13 +6,13 @@ To see the effect of this, observe a graph of the error function starting from a
 \centering
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{ErrorOverTime_6000Hz_perm_fixed.eps}
-\caption{Error over Time, Corrected Method with \(\eta = 0.002\), \(\epsilon = 0.145\)}
+\caption{Error over Time, Corrected Method with \(r_{in} = 6000Hz\), \(\eta = 0.002\), \(\epsilon = 0.145\)}
 \label{EoT: fixed}
 \end{subfigure}
 \,
 \begin{subfigure}[b]{0.49\textwidth}
 \includegraphics[width = \textwidth]{ErrorOverTime_6000Hz_Perm.eps}
-\caption{Error over Time, Incorrect Method with \(\eta = 0.002\), \(\epsilon = 0.145\)}
+\caption{Error over Time, Incorrect Method with \(r_{in} = 6000Hz\).}
 \label{EoT: broken}
 \end{subfigure}
 \caption{It is clear that the error from the correct method is less than the error from the incorrect method by a factor of 10! This suggests most of the error seen earlier in the paper was due to a bad implementation, however even the corrected version has a certain constant error.}

@@ -1,4 +1,4 @@
-We were primarily interested in two major results produced in \cite{Fiete}. First, we were interested the occurrence of long synfire chains with synchronous regular firing. We also investigated the paper's claim that STDP learning with \(w_{max} = W_{max}\) converged to scaled permutation matrices.
+We were primarily interested in two major results produced in \cite{Fiete}. First, we were interested the occurrence of long synfire chains with synchronous regular bursting. We also investigated the paper's claim that STDP learning with \(w_{max} = W_{max}\) produced scaled permutation matrices.
 
 Though we tried to replicate the algorithm described in \cite{Fiete}, we were unable to produce a stable system with the provided inputs, so we had to tune the parameters a bit. We eventually found parameters at which burst rates were steady and believable. 
 
@@ -8,7 +8,7 @@ Finally, we replaced STDP learning with Hebbian learning and demonstrated that t
 
 \subsection{Parameter Tuning}
 
-Although our model was constructed to be identical to the model used in \cite{Fiete}, we were unable to use the same parameters as the paper. As an example, the paper claimed to set \(r_{in}\), external input, at 4 Hz. At 4 Hz, we were unable to get our system to fire at all! We assumed it was a typo (the rest of the parameters were given in terms of ms), and attempted running our simulation at 4000Hz. Even 4000Hz was not enough to get the system started, so we tried simulated annealing. The system began with 10000Hz of stimulation, which decreased steadily to 4000Hz. We did this again, but this time stopped at 6000Hz. The difference was striking (see figure \ref{burstSTDP}). 
+Although our model was constructed to be identical to the model used in \cite{Fiete}, we were unable to use the same parameters as the paper. As an example, the paper claimed to set \(r_{in}\), external input, at 4 Hz. At 4 Hz, we were unable to get our system to burst at all! We assumed it was a typo (the rest of the parameters were given in terms of ms), and attempted running our simulation at 4000Hz. Even 4000Hz was not enough to get the system started, so we tried simulated annealing. The system began with 10000Hz of stimulation, which decreased steadily to 4000Hz. We did this again, but this time stopped at 6000Hz. The difference was striking (see figure \ref{burstSTDP}). 
 
 \begin{figure}[H]
 \centering
@@ -81,7 +81,7 @@ Finally, we tried running a playback sequence with a fixed scaled permutation we
 \caption{Bursts without learning, \(w_{max} = 0.7\).}
 \label{Burst_no_learning: 0.7}
 \end{subfigure}
-\caption{We ran the simulation for 50000 time steps at \(dt = 2\times 10^{-5}\)s with \(r_{in} = 6000\)Hz. As expected, for high values of \(w_{max}\), we witnessed high regularity, synchrony and long firing chains. At our default value of \(w_{max} = 0.14\) we witnessed a few small firing chains, but much more irregular firing.}
+\caption{We ran the simulation for 50000 time steps at \(dt = 2\times 10^{-5}\)s with \(r_{in} = 6000\)Hz. As expected, for high values of \(w_{max}\), we witnessed high regularity, synchrony and continuous firing chains. At our default value of \(w_{max} = 0.14\) we witnessed a few small firing chains, but much more irregular firing.}
 \label{Burst_no_learning}
 \end{figure}
 
@@ -133,7 +133,7 @@ While these figures seemed to confirm that the weight matrices were converging t
 
 \[e(W) = \sum_{i,j=1}^N \left|WW^T - w_{max}^2I\right|_{ij}\]
 
-This is the componentwise absolute difference between \(WW^T\) and \(PP^T\) for any permutation matrix scaled by \(w_{max}\). Notice that this measurement is actually a little generous, since permutation matrices are not the only square roots of the identity. However, it is simple to compute and if it is nonzero, then we are guaranteed that the weight matrix is not a scaled permutation matrix. See figure \ref{Error_over_time} for a plot of error over time. Notice that this error is unnormalized by \(w_{max}\), but that was not important here because we only used the error function with \(w_{max} = 0.14\).
+This is the componentwise absolute difference between \(WW^T\) and \(PP^T\) for any permutation matrix scaled by \(w_{max}\). We can consider \(e\) the square distance of \(W\) from the set of square roots of \(w^2_{max}I\). Notice that this measurement is actually a little generous, since permutation matrices are not the only square roots of the identity. However, it is simple to compute and if it is nonzero, then we are guaranteed that the weight matrix is not a scaled permutation matrix. See figure \ref{Error_over_time} for a plot of error over time. Notice that this error is unnormalized by \(w_{max}\), but that was not important here because we only used the error function with \(w_{max} = 0.14\).
 
 \begin{figure}[H]
 \centering
